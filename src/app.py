@@ -58,8 +58,12 @@ myPatterns = {
     'clique': clique
 }
 
-def dynamic_graph():
-    pass
+def dynamic_graph(time_count, nodes_count, community_count_of_each_type, path_length = 3):
+    graphs = []
+    for i in range(time_count):
+        graphs.append(static_graph(nodes_count, community_count_of_each_type, path_length))
+    return graphs
+
 
 def static_graph(nodes_count, community_count_of_each_type, path_length = 3):
     compound_G = nx.classic.cycle_graph(community_count_of_each_type * 4) # use cycle graph to connect components
@@ -91,7 +95,7 @@ def static_graph(nodes_count, community_count_of_each_type, path_length = 3):
 if __name__ == "__main__":
     community_count = 10
     nodes_count = 100
-    G = static_graph(nodes_count, int(community_count / 4))
+    graphs = dynamic_graph(2, nodes_count, int(community_count / 4))
     # G = nx.classic.cycle_graph(40)
     # G = nx.expanders.chordal_cycle_graph(40)
     # G = nx.Graph()
@@ -100,4 +104,7 @@ if __name__ == "__main__":
     # G = nx.compose(G, star(10, 20))
     # G = nx.compose(G, king(10, 30))
     with open('../output/data.json', 'w') as f:
-        json.dump(json_graph.node_link_data(G), f)
+        graphs_json = []
+        for G in graphs:
+            graphs_json.append(json_graph.node_link_data(G))
+        json.dump(graphs_json, f)
