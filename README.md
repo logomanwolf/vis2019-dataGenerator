@@ -17,11 +17,11 @@
 
 目前加入的数据结构：
 
-![image-20181227155059166](/Users/jackie/Repository/vis2019/dataGenerator/assets/image-20181227155059166.png)![image-20181227155106575](/Users/jackie/Repository/vis2019/dataGenerator/assets/image-20181227155106575.png)![image-20181227155112006](/Users/jackie/Repository/vis2019/dataGenerator/assets/image-20181227155112006.png)![image-20181227155118263](/Users/jackie/Repository/vis2019/dataGenerator/assets/image-20181227155118263.png)
+![image-20181227155059166](./assets/image-20181227155059166.png)![image-20181227155106575](./assets/image-20181227155106575.png)![image-20181227155112006](./assets/image-20181227155112006.png)![image-20181227155118263](./assets/image-20181227155118263.png)
 
 这些社团会通过一些简单的路径相连，形成一个连通子图。比如，使用环状路径来连接这些子图：
 
-![image-20181228180326702](/Users/jackie/Repository/vis2019/dataGenerator/assets/image-20181228180326702.png)
+![image-20181228180326702](./assets/image-20181228180326702.png)
 
 现在将这种不同的社团结构称为group，每个group会随着时间在这几种结构中随机变化，但节点数量不变。
 
