@@ -28,7 +28,7 @@ def bipartite(count, begin_id):
 def star(count, begin_id):
     G = nx.Graph()
     for i in range(count - 1):
-        G.add_edge(begin_id, begin_id + i)
+        G.add_edge(begin_id, begin_id + i + 1)
     labels = 'star'
     nx.set_node_attributes(G, labels, 'labels')
     return G
@@ -66,36 +66,41 @@ def dynamic_graph(time_count, nodes_count, community_count_of_each_type, path_le
 
 
 def static_graph(nodes_count, community_count_of_each_type, path_length = 3):
-    compound_G = nx.classic.cycle_graph(community_count_of_each_type * 4) # use cycle graph to connect components
+    pattern_funcs = list(myPatterns.values())
+    compound_G = nx.classic.cycle_graph(community_count_of_each_type * len(pattern_funcs)) # use cycle graph to connect components
     # compound_G = nx.expanders.chordal_cycle_graph(community_count_of_each_type * 4) # use chordal_cycle_graph to connect components
     path_nodes_count = len(compound_G.edges) * (path_length - 1)
-    node_in_community_count = math.floor((nodes_count - path_nodes_count) / (community_count_of_each_type * 4))
+    node_in_community_count = math.floor((nodes_count - path_nodes_count) / (community_count_of_each_type * len(pattern_funcs)))
     patterns = []
     begin_ids = []
     for i in range(community_count_of_each_type):
         j = 0
-        pattern_funcs = list(myPatterns.values())
         random.shuffle(pattern_funcs)
-        for pattern_func in pattern_funcs :
+        for pattern_func in pattern_funcs:
             begin_id = (i * len(list(myPatterns)) + j) * node_in_community_count
             begin_ids.append(begin_id)
             patterns.append(pattern_func(node_in_community_count, begin_id))
             j += 1
     G = nx.Graph()
+    k = 0
     for pattern in patterns:
+        group = k
+        nx.set_node_attributes(pattern, group, 'group')
+        k += 1
         G = nx.compose(G, pattern)
     for edge in compound_G.edges:
-        count = len(G.edges)
+        count = len(G.nodes)
         G.add_edge(begin_ids[edge[0]], count)
-        G.add_edge(count, count + 1)
-        G.add_edge(count + 1, begin_ids[edge[1]])
+        for i in range(path_length - 2):
+            G.add_edge(count + i, count + i + 1)
+        G.add_edge(count + path_length - 2, begin_ids[edge[1]])
     return G
 
 
 if __name__ == "__main__":
-    community_count = 10
-    nodes_count = 100
-    graphs = dynamic_graph(2, nodes_count, int(community_count / 4))
+    community_count = 20 # 社团总体数量，最好是4的倍数（因为图里面有四种pattern）
+    nodes_count = 1000 # 每一帧的节点总体数量
+    graphs = dynamic_graph(10, nodes_count, int(community_count / 4))
     # G = nx.classic.cycle_graph(40)
     # G = nx.expanders.chordal_cycle_graph(40)
     # G = nx.Graph()
