@@ -21,5 +21,26 @@
 
 这些社团会通过一些简单的路径相连，形成一个连通子图。比如，使用环状路径来连接这些子图：
 
-![image-20181227213619115](/Users/jackie/Repository/vis2019/dataGenerator/assets/image-20181227213619115.png)
+![image-20181228180326702](/Users/jackie/Repository/vis2019/dataGenerator/assets/image-20181228180326702.png)
+
+现在将这种不同的社团结构称为group，每个group会随着时间在这几种结构中随机变化，但节点数量不变。
+
+
+
+### 使用
+
+1. 生成数据：
+
+   app.py可以用于生成数据，依赖包：networkx（2.2），参数有4个：
+
+   - `time_count`（动态图的帧数）
+   - `nodes_count`（每一帧的节点总数）
+   - `community_count`（每一帧的group的个数）
+   - `path_length`（连接不同group之间路径长度，指该路径上边的数量）
+
+   `python ./src/app.py`即可运行（python3）
+
+2. 可视化：
+
+   运行`python -m SimpleHTTPServer 2333`，启动服务器后，打开`http://localhost:2333/output/force.html`，当点击某个节点后，可以观察这个节点所在社团的时序变化
 

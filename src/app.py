@@ -98,9 +98,13 @@ def static_graph(nodes_count, community_count_of_each_type, path_length = 3):
 
 
 if __name__ == "__main__":
+    # 参数
     community_count = 20 # 社团总体数量，最好是4的倍数（因为图里面有四种pattern）
     nodes_count = 1000 # 每一帧的节点总体数量
-    graphs = dynamic_graph(10, nodes_count, int(community_count / 4))
+    path_length = 3
+    time_count = 10
+    
+    graphs = dynamic_graph(time_count, nodes_count, int(community_count / 4), path_length)
     # G = nx.classic.cycle_graph(40)
     # G = nx.expanders.chordal_cycle_graph(40)
     # G = nx.Graph()
